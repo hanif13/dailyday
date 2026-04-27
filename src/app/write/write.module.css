@@ -1,0 +1,225 @@
+.page {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: calc(100vh - 64px);
+  gap: 0;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  border-right: 1px solid var(--cream-300);
+  padding: 24px 20px;
+  background: var(--cream-50);
+  overflow-y: auto;
+  max-height: calc(100vh - 64px);
+  position: sticky;
+  top: 64px;
+}
+
+.sideCard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sideSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Mood ── */
+.moodGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.moodBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.moodBtn:hover {
+  background: var(--cream-200);
+  transform: scale(1.1);
+}
+.moodActive {
+  border-color: var(--ink-300);
+  background: var(--cream-200);
+  transform: scale(1.1);
+}
+
+/* ── Paper styles ── */
+.paperGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.paperBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 8px;
+  border: 1.5px solid var(--cream-300);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-paper);
+}
+.paperBtn:hover {
+  border-color: var(--ink-200);
+  transform: translateY(-1px);
+}
+.paperActive {
+  border-color: var(--ink-400) !important;
+  background: var(--cream-100);
+}
+.paperIcon { font-size: 1.2rem; }
+.paperLabel {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--ink-300);
+}
+
+/* ── Tags ── */
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.tagChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: var(--cream-200);
+  border-radius: 99px;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--ink-400);
+}
+
+.tagRemove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-300);
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.15s;
+}
+.tagRemove:hover { color: var(--ink-600); }
+
+/* ── Drop zone ── */
+.dropZone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px;
+  border: 2px dashed var(--cream-300);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--bg-card);
+}
+.dropZone:hover {
+  border-color: var(--ink-300);
+  background: var(--cream-100);
+}
+.dropIcon { font-size: 1.5rem; }
+.dropText {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--ink-200);
+}
+
+/* ── Image thumbnail grid ── */
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.imageThumb {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--cream-300);
+}
+
+/* ── Save button ── */
+.saveBtn {
+  width: 100%;
+  justify-content: center;
+  font-size: 0.92rem;
+  padding: 12px;
+}
+
+/* ── Editor area ── */
+.editorArea {
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 900px;
+}
+
+.editorHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--cream-300);
+}
+
+.editorMood {
+  font-size: 1.8rem;
+}
+
+.editorTitle {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--ink-600);
+}
+
+.editorDate {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--ink-200);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+    max-height: none;
+    border-right: none;
+    border-bottom: 1px solid var(--cream-300);
+  }
+  .editorArea {
+    padding: 20px;
+  }
+}

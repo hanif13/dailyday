@@ -1,0 +1,219 @@
+.container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.hints {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 60px 0;
+}
+
+.hint {
+  font-family: var(--font-ui);
+  font-size: 0.73rem;
+  color: var(--ink-200);
+  letter-spacing: 0.04em;
+}
+
+/* ── Scrollable track ── */
+.track {
+  display: flex;
+  align-items: center;       /* align to the node row */
+  overflow-x: auto;
+  overflow-y: visible;
+  cursor: grab;
+  user-select: none;
+  padding: 0 0 24px;
+  /* Hide scrollbar — show thin one */
+  scrollbar-width: thin;
+  scrollbar-color: var(--cream-400) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+.track::-webkit-scrollbar { height: 5px; }
+.track::-webkit-scrollbar-track { background: transparent; }
+.track::-webkit-scrollbar-thumb { background: var(--cream-300); border-radius: 3px; }
+
+.track.dragging { cursor: grabbing; }
+
+.spacer {
+  flex-shrink: 0;
+  width: 60px;
+}
+
+/* ── Each item — column: [top slot] [connector] [node] [connector] [bottom slot] ── */
+.item {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 260px;
+  margin: 0 12px;
+  animation: fadeUp 0.45s ease both;
+  position: relative;
+}
+
+/* Line drawn via pseudo on track — we use a box-shadow trick on node instead */
+.item::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  right: -8px;
+  height: 2px;
+  background: var(--cream-400);
+  z-index: 0;
+  transform: translateY(-50%);
+}
+
+/* ── Fixed height slots — cards live here ── */
+.slotTop {
+  width: 100%;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 16px;
+}
+
+.slotBottom {
+  width: 100%;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 16px;
+}
+
+/* Connector (thin line between card and dot) */
+.connector {
+  width: 1px;
+  height: 20px;
+  background: var(--cream-400);
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+/* ── Node ── */
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2.5px solid var(--ink-300);
+  box-shadow: 0 0 0 3px var(--cream-100);
+  transition: border-color 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+.item:hover .dot {
+  border-color: var(--ink-500);
+  transform: scale(1.25);
+}
+
+.dateLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2;
+}
+
+.day   { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 700; color: var(--ink-500); }
+.month { font-family: var(--font-ui); font-size: 0.68rem; color: var(--ink-300); letter-spacing: 0.04em; }
+.year  { font-family: var(--font-ui); font-size: 0.62rem; color: var(--ink-200); }
+
+/* ── Card ── */
+.card {
+  width: 100%;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-paper);
+  border: 1px solid var(--cream-200);
+  padding: 14px 15px;
+  position: relative;
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.card:hover {
+  box-shadow: var(--shadow-paper-hover);
+  transform: translateY(-2px);
+  z-index: 5;
+}
+
+.paperBadge {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  font-size: 0.8rem;
+  opacity: 0.55;
+}
+
+.cardHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin-bottom: 6px;
+  padding-right: 20px;
+}
+
+.mood  { font-size: 1rem; line-height: 1.2; flex-shrink: 0; }
+.title {
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink-600);
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.preview {
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  color: var(--ink-300);
+  line-height: 1.5;
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.readMore {
+  font-family: var(--font-ui);
+  font-size: 0.73rem;
+  color: var(--ink-300);
+  text-decoration: none;
+  transition: color 0.2s;
+  display: block;
+}
+.readMore:hover { color: var(--ink-500); }
+
+/* ── Empty state ── */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 100px 24px;
+  text-align: center;
+}
+.emptyIcon { font-size: 3rem; color: var(--gold); }
+.empty h3  { font-family: var(--font-serif); font-size: 1.4rem; color: var(--ink-400); }
+.empty p   { color: var(--ink-200); font-size: 0.93rem; margin-bottom: 8px; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

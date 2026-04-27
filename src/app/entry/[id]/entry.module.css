@@ -1,0 +1,211 @@
+.page {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top bar ── */
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+  border-bottom: 1px solid var(--cream-300);
+  background: rgba(253,250,244,0.7);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 64px;
+  z-index: 10;
+}
+
+.topActions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Layout ── */
+.layout {
+  display: flex;
+  flex: 1;
+  gap: 0;
+}
+
+/* ── Article ── */
+.article {
+  flex: 1;
+  padding: 40px;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.entryHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--cream-300);
+}
+
+.entryMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mood {
+  font-size: 2rem;
+}
+
+.dateStr {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--ink-200);
+  letter-spacing: 0.04em;
+}
+
+.entryTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.entryTitle {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--ink-700);
+  line-height: 1.2;
+}
+
+.titleInput {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--ink-700);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--cream-300);
+  border-radius: 0;
+  padding: 4px 0;
+}
+.titleInput:focus {
+  border-bottom-color: var(--ink-300);
+  box-shadow: none;
+}
+
+/* ── Read view ── */
+.readView {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-paper);
+  border: 1px solid var(--cream-200);
+  padding: 36px 40px;
+  min-height: 400px;
+}
+
+.readContent {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 2;
+  color: var(--ink-600);
+}
+
+.readContent h1 { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 700; margin: 1em 0 0.4em; color: var(--ink-700); }
+.readContent h2 { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 600; margin: 0.8em 0 0.3em; }
+.readContent h3 { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; margin: 0.6em 0 0.25em; }
+.readContent p { margin-bottom: 0.7em; }
+.readContent blockquote { border-left: 3px solid var(--gold); padding-left: 16px; font-style: italic; color: var(--ink-400); margin: 1em 0; }
+.readContent ul, .readContent ol { padding-left: 1.5em; margin: 0.5em 0 1em; }
+.readContent li { margin: 0.25em 0; }
+.readContent hr { border: none; border-top: 1px solid var(--cream-300); margin: 1.5em 0; }
+.readContent mark { background: #fde68a; border-radius: 2px; padding: 0 2px; }
+
+/* ── Images section ── */
+.imagesSection { display: flex; flex-direction: column; gap: 12px; }
+.imagesTitle { font-family: var(--font-serif); font-size: 1rem; color: var(--ink-400); font-weight: 600; }
+.imagesGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+.imgItem { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-lg); border: 1px solid var(--cream-200); cursor: zoom-in; transition: transform 0.2s, box-shadow 0.2s; }
+.imgItem:hover { transform: scale(1.02); box-shadow: var(--shadow-paper-hover); }
+
+.uploadSection { padding-top: 8px; }
+
+/* ── Edit sidebar ── */
+.sidebar {
+  width: 260px;
+  border-left: 1px solid var(--cream-300);
+  padding: 24px 20px;
+  background: var(--cream-50);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+}
+
+.sideSection { display: flex; flex-direction: column; gap: 8px; }
+
+.moodGrid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.moodBtn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border: 2px solid transparent; border-radius: var(--radius); background: transparent; font-size: 1rem; cursor: pointer; transition: all 0.15s; }
+.moodBtn:hover { background: var(--cream-200); transform: scale(1.1); }
+.moodActive { border-color: var(--ink-300); background: var(--cream-200); }
+
+.paperGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.paperBtn { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px; border: 1.5px solid var(--cream-300); border-radius: var(--radius); background: var(--bg-card); cursor: pointer; transition: all 0.2s; }
+.paperBtn:hover { border-color: var(--ink-200); }
+.paperActive { border-color: var(--ink-400) !important; background: var(--cream-100); }
+
+.tagList { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.tagChip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; background: var(--cream-200); border-radius: 99px; font-family: var(--font-ui); font-size: 0.75rem; color: var(--ink-400); }
+.tagRemove { background: none; border: none; cursor: pointer; color: var(--ink-300); font-size: 1rem; line-height: 1; padding: 0; }
+.tagRemove:hover { color: var(--ink-600); }
+
+/* ── Lightbox ── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 20, 10, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.lightboxImg {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+  animation: scaleIn 0.25s ease;
+}
+
+.lightboxClose {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.lightboxClose:hover { background: rgba(255,255,255,0.25); }
+
+@media (max-width: 900px) {
+  .article { padding: 20px; }
+  .readView { padding: 20px; }
+  .sidebar { display: none; }
+  .topBar { padding: 10px 16px; }
+}

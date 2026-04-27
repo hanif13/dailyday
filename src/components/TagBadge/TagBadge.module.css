@@ -1,0 +1,34 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 99px;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  border: 1px solid;
+  cursor: default;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.tag[role="button"] {
+  cursor: pointer;
+}
+.tag[role="button"]:hover {
+  transform: translateY(-1px);
+  opacity: 1 !important;
+}
+
+.sm {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+}
+
+.md {
+  font-size: 0.78rem;
+  padding: 3px 10px;
+}
+
+.active {
+  font-weight: 600;
+}
