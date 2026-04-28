@@ -6,10 +6,10 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const entry = getEntryById(Number(params.id));
+    const entry = await getEntryById(Number(params.id));
     if (!entry) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     return NextResponse.json(entry);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch entry' }, { status: 500 });
   }
 }
@@ -22,7 +22,7 @@ export async function PUT(
     const body = await req.json();
     const { title, content, mood, paper_style, tags } = body;
 
-    const entry = updateEntry(Number(params.id), {
+    const entry = await updateEntry(Number(params.id), {
       title,
       content,
       mood,
@@ -43,10 +43,10 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const success = deleteEntry(Number(params.id));
+    const success = await deleteEntry(Number(params.id));
     if (!success) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to delete entry' }, { status: 500 });
   }
 }

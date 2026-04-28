@@ -54,7 +54,7 @@ export default function WritePage() {
       });
       const entry = await res.json();
       router.push(`/entry/${entry.id}`);
-    } catch (e) {
+    } catch {
       alert('บันทึกล้มเหลว');
     } finally {
       setSaving(false);

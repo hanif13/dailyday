@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -5,7 +6,7 @@ import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
 import Placeholder from '@tiptap/extension-placeholder';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import styles from './DiaryEditor.module.css';
 
 interface DiaryEditorProps {
@@ -15,11 +16,7 @@ interface DiaryEditorProps {
   placeholder?: string;
 }
 
-const TOOLBAR_BUTTONS = [
-  { action: 'bold', icon: 'B', title: 'Bold', cmd: (e: any) => e.toggleBold().run() },
-  { action: 'italic', icon: 'I', title: 'Italic', cmd: (e: any) => e.toggleItalic().run() },
-  { action: 'underline', icon: 'U', title: 'Underline', cmd: (e: any) => e.toggleUnderline().run() },
-];
+
 
 export default function DiaryEditor({
   content,
@@ -47,14 +44,14 @@ export default function DiaryEditor({
   // Sync content if it changes from outside
   useEffect(() => {
     if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content, false);
+      editor.commands.setContent(content, { emitUpdate: false } as Record<string, unknown>);
     }
   }, [content, editor]);
 
   if (!editor) return null;
 
-  const isActive = (type: string, attrs?: object) =>
-    editor.isActive(type, attrs);
+  const isActive = (type: string | object, attrs?: object) =>
+    editor.isActive(type as any, attrs);
 
   return (
     <div className={styles.wrapper}>

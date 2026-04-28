@@ -156,7 +156,7 @@ export default function HomePage() {
           <div className={styles.resultInfo}>
             พบ <strong>{filteredEntries.length}</strong> รายการ
             {activeTag && <> · แท็ก <span style={{ color: allTags.find(t => t.name === activeTag)?.color }}># {activeTag}</span></>}
-            {searchQuery && !searchQuery.startsWith('#') && <> · "{searchQuery}"</>}
+            {searchQuery && !searchQuery.startsWith('#') && <> &middot; &quot;{searchQuery}&quot;</>}
           </div>
         )}
       </header>

@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllEntries, createEntry, PaperStyle } from '@/lib/db';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
-    const entries = getAllEntries();
+    const entries = await getAllEntries();
     return NextResponse.json(entries);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch entries' }, { status: 500 });
   }
 }
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Title or content required' }, { status: 400 });
     }
 
-    const entry = createEntry({
+    const entry = await createEntry({
       title: title || 'Untitled',
       content: content || '',
       mood: mood || '📝',
