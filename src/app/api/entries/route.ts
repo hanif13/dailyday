@@ -27,6 +27,10 @@ export async function POST(req: NextRequest) {
       tags: tags || [],
     });
 
+    if (!entry) {
+      return NextResponse.json({ error: 'Failed to create entry in database' }, { status: 500 });
+    }
+
     return NextResponse.json(entry, { status: 201 });
   } catch (error) {
     console.error(error);
