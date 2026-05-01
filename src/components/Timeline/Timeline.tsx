@@ -30,6 +30,11 @@ function stripHtml(html: string, maxLen = 100) {
   return txt.length > maxLen ? txt.slice(0, maxLen) + '…' : txt;
 }
 
+function extractFirstImage(html: string) {
+  const match = html.match(/<img [^>]*src="([^"]*)"/);
+  return match ? match[1] : null;
+}
+
 const PAPER_LABELS: Record<string, string> = {
   plain: '📄', lined: '📓', grid: '📐', vintage: '🌿',
 };
@@ -62,7 +67,7 @@ export default function Timeline({ entries, activeTag, onTagClick }: TimelinePro
         <div className={styles.emptyIcon}>✦</div>
         <h3>ยังไม่มีบันทึก</h3>
         <p>เริ่มเขียนไดอารี่วันแรกของคุณ</p>
-        <Link href="/write" className="btn btn-primary">เขียนเลย</Link>
+        <Link href="/" className="btn btn-primary">เขียนเลย</Link>
       </div>
     );
   }
@@ -98,6 +103,11 @@ export default function Timeline({ entries, activeTag, onTagClick }: TimelinePro
                 <span className={styles.mood}>{entry.mood}</span>
                 <h3 className={styles.title}>{entry.title || 'ไม่มีชื่อ'}</h3>
               </div>
+              {extractFirstImage(entry.content) && (
+                <div className={styles.imagePreview}>
+                  <img src={extractFirstImage(entry.content)!} alt="preview" />
+                </div>
+              )}
               {preview && <p className={styles.preview}>{preview}</p>}
               {entry.tags && entry.tags.length > 0 && (
                 <div className={styles.tags}>

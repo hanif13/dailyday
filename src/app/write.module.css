@@ -22,6 +22,109 @@
   gap: 20px;
 }
 
+.draftNotice {
+  padding: 16px;
+  background: var(--cream-100);
+  border: 1px dashed var(--ink-300);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.draftNotice p {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--ink-500);
+  margin: 0;
+  text-align: center;
+}
+
+.draftList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.draftItemWrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.draftItemBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--cream-300);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  width: 10%; /* to allow text truncation inside */
+}
+
+.draftItemBtn:hover {
+  border-color: var(--ink-300);
+  background: var(--cream-100);
+}
+
+.draftItemDelete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink-300);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.draftItemDelete:hover {
+  background: #fee2e2;
+  color: #ef4444;
+  border-color: #fca5a5;
+}
+
+.draftItemMood {
+  font-size: 1.5rem;
+}
+
+.draftItemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.draftItemTitle {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: var(--ink-600);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.draftItemDate {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  color: var(--ink-300);
+}
+
 .sideSection {
   display: flex;
   flex-direction: column;
@@ -124,46 +227,6 @@
   transition: color 0.15s;
 }
 .tagRemove:hover { color: var(--ink-600); }
-
-/* ── Drop zone ── */
-.dropZone {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 16px;
-  border: 2px dashed var(--cream-300);
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.2s;
-  background: var(--bg-card);
-}
-.dropZone:hover {
-  border-color: var(--ink-300);
-  background: var(--cream-100);
-}
-.dropIcon { font-size: 1.5rem; }
-.dropText {
-  font-family: var(--font-ui);
-  font-size: 0.78rem;
-  color: var(--ink-200);
-}
-
-/* ── Image thumbnail grid ── */
-.imageGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  margin-top: 4px;
-}
-
-.imageThumb {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: var(--radius);
-  border: 1px solid var(--cream-300);
-}
 
 /* ── Save button ── */
 .saveBtn {

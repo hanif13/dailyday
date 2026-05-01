@@ -3,8 +3,8 @@ import './globals.css';
 import Navbar from '@/components/Navbar/Navbar';
 
 export const metadata: Metadata = {
-  title: 'Daily Day — บันทึกส่วนตัว',
-  description: 'เขียนไดอารี่ส่วนตัว มีไทม์ไลน์ แท็ก และรูปภาพ',
+  title: 'Life Reflection — บันทึกเส้นทางชีวิต',
+  description: 'บันทึกประสบการณ์ชีวิต สะท้อนตัวตน มีไทม์ไลน์ แท็ก และรูปภาพ',
 };
 
 export default function RootLayout({

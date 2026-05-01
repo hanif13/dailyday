@@ -6,7 +6,12 @@ import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
 import Placeholder from '@tiptap/extension-placeholder';
+import Image from '@tiptap/extension-image';
+import { Color } from '@tiptap/extension-color';
+import { TextStyle } from '@tiptap/extension-text-style';
+import { Extension } from '@tiptap/core';
 import { useEffect } from 'react';
+import { AlignLeft, AlignCenter, AlignRight, AlignJustify } from 'lucide-react';
 import styles from './DiaryEditor.module.css';
 
 interface DiaryEditorProps {
@@ -16,8 +21,16 @@ interface DiaryEditorProps {
   placeholder?: string;
 }
 
-
-
+const TabIndent = Extension.create({
+  name: 'tabIndent',
+  addKeyboardShortcuts() {
+    return {
+      Tab: () => {
+        return this.editor.commands.insertContent('\u00A0\u00A0\u00A0\u00A0');
+      },
+    };
+  },
+});
 export default function DiaryEditor({
   content,
   onChange,
@@ -33,17 +46,31 @@ export default function DiaryEditor({
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Highlight.configure({ multicolor: true }),
       Placeholder.configure({ placeholder }),
+      Image.configure({
+        allowBase64: true,
+        HTMLAttributes: {
+          class: styles.editorImage,
+        },
+      }),
+      TextStyle,
+      Color,
+      TabIndent,
     ],
     content,
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+      const html = editor.getHTML();
+      if (html !== content) {
+        onChange(html);
+      }
     },
     immediatelyRender: false,
   });
 
   // Sync content if it changes from outside
   useEffect(() => {
-    if (editor && content !== editor.getHTML()) {
+    if (!editor) return;
+    const currentHTML = editor.getHTML();
+    if (content !== currentHTML && (content || currentHTML !== '<p></p>')) {
       editor.commands.setContent(content, { emitUpdate: false } as Record<string, unknown>);
     }
   }, [content, editor]);
@@ -85,6 +112,25 @@ export default function DiaryEditor({
           >
             <span style={{ textDecoration: 'underline' }}>U</span>
           </button>
+          <button
+            id="editor-strike"
+            type="button"
+            className={`${styles.toolBtn} ${isActive('strike') ? styles.toolBtnActive : ''}`}
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+            title="Strikethrough"
+          >
+            <s>S</s>
+          </button>
+          
+          {/* Color Picker */}
+          <input
+            type="color"
+            id="editor-color"
+            className={styles.colorPickerBtn}
+            onInput={(e) => editor.chain().focus().setColor((e.target as HTMLInputElement).value).run()}
+            value={editor.getAttributes('textStyle').color || '#000000'}
+            title="Text Color"
+          />
         </div>
 
         <div className={styles.divider} />
@@ -145,21 +191,78 @@ export default function DiaryEditor({
             className={`${styles.toolBtn} ${isActive({ textAlign: 'left' }) ? styles.toolBtnActive : ''}`}
             onClick={() => editor.chain().focus().setTextAlign('left').run()}
             title="Align Left"
-          >⬛︎</button>
+          >
+            <AlignLeft size={16} />
+          </button>
           <button
             id="editor-align-center"
             type="button"
             className={`${styles.toolBtn} ${isActive({ textAlign: 'center' }) ? styles.toolBtnActive : ''}`}
             onClick={() => editor.chain().focus().setTextAlign('center').run()}
             title="Align Center"
-          >≡</button>
+          >
+            <AlignCenter size={16} />
+          </button>
           <button
             id="editor-align-right"
             type="button"
             className={`${styles.toolBtn} ${isActive({ textAlign: 'right' }) ? styles.toolBtnActive : ''}`}
             onClick={() => editor.chain().focus().setTextAlign('right').run()}
             title="Align Right"
-          >▰</button>
+          >
+            <AlignRight size={16} />
+          </button>
+          <button
+            id="editor-align-justify"
+            type="button"
+            className={`${styles.toolBtn} ${isActive({ textAlign: 'justify' }) ? styles.toolBtnActive : ''}`}
+            onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+            title="Align Justify"
+          >
+            <AlignJustify size={16} />
+          </button>
+        </div>
+
+        <div className={styles.divider} />
+
+        <div className={styles.toolbarGroup}>
+          <button
+            id="editor-image"
+            type="button"
+            className={styles.toolBtn}
+            onClick={() => {
+              const url = window.prompt('ใส่ URL รูปภาพ');
+              if (url) editor.chain().focus().setImage({ src: url }).run();
+            }}
+            title="Add Image"
+          >
+            🖼️
+          </button>
+          <input 
+            type="file" 
+            id="editor-image-upload" 
+            hidden 
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                  const result = e.target?.result as string;
+                  editor.chain().focus().setImage({ src: result }).run();
+                };
+                reader.readAsDataURL(file);
+              }
+            }}
+          />
+          <button
+            type="button"
+            className={styles.toolBtn}
+            onClick={() => document.getElementById('editor-image-upload')?.click()}
+            title="Upload Image"
+          >
+            📤
+          </button>
         </div>
 
         <div className={styles.divider} />
@@ -179,6 +282,18 @@ export default function DiaryEditor({
             onClick={() => editor.chain().focus().setHorizontalRule().run()}
             title="Divider"
           >—</button>
+          <button
+            id="editor-indent"
+            type="button"
+            className={styles.toolBtn}
+            onClick={() => {
+              // Toggle blockquote as a visual indent
+              editor.chain().focus().toggleBlockquote().run();
+            }}
+            title="Indent (ย่อหน้า)"
+          >
+            →|
+          </button>
         </div>
       </div>
 
