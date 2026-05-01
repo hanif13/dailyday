@@ -53,7 +53,7 @@ export default function HomePage() {
     if (draftsData) {
       try {
         loadedDrafts = JSON.parse(draftsData);
-      } catch (e) {}
+      } catch {}
     }
 
     // Migrate old single draft to new format if needed
@@ -74,7 +74,7 @@ export default function HomePage() {
            localStorage.removeItem('life_reflection_draft');
            localStorage.setItem(DRAFT_KEY, JSON.stringify(loadedDrafts));
         }
-      } catch(e) {}
+      } catch {}
     }
 
     setDrafts(loadedDrafts);
@@ -122,7 +122,7 @@ export default function HomePage() {
           const existingIndex = prevDrafts.findIndex(d => d.id === draftId);
           const newDraft: Draft = { id: draftId, title, content, mood, paperStyle, tags, updatedAt: now };
           
-          let newDrafts = [...prevDrafts];
+          const newDrafts = [...prevDrafts];
           if (existingIndex >= 0) {
             newDrafts[existingIndex] = newDraft;
           } else {
