@@ -154,6 +154,7 @@
   background: var(--bg-card);
   flex: 1;
   transition: all 0.3s ease;
+  font-family: var(--font-body);
 }
 
 /* ── Paper Backgrounds ── */
@@ -200,7 +201,7 @@
 .editor :global(.ProseMirror) {
   outline: none;
   min-height: 416px;
-  font-family: var(--font-body);
+  font-family: inherit;
   font-size: 1.1rem;
   line-height: 32px;
   color: var(--ink-600);

@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllEntries, createEntry, PaperStyle } from '@/lib/db';
+import { getAllEntries, createEntry, getUserFromToken, PaperStyle } from '@/lib/db';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const entries = await getAllEntries();
+    const token = req.headers.get('authorization')?.replace('Bearer ', '') || null;
+    const userId = await getUserFromToken(token);
+
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const entries = await getAllEntries(userId);
     return NextResponse.json(entries);
   } catch {
     return NextResponse.json({ error: 'Failed to fetch entries' }, { status: 500 });
@@ -12,6 +19,13 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
+    const token = req.headers.get('authorization')?.replace('Bearer ', '') || null;
+    const userId = await getUserFromToken(token);
+
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await req.json();
     const { title, content, mood, paper_style, tags } = body;
 
@@ -25,6 +39,7 @@ export async function POST(req: NextRequest) {
       mood: mood || '📝',
       paper_style: (paper_style as PaperStyle) || 'plain',
       tags: tags || [],
+      user_id: userId,
     });
 
     if (!entry) {

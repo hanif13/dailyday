@@ -103,11 +103,40 @@
   color: var(--ink-500);
 }
 
-.writeBtn {
+/* ── User area ── */
+.userArea {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.userName {
   font-family: var(--font-ui);
-  font-size: 0.88rem;
-  padding: 9px 18px;
+  font-size: 0.82rem;
+  color: var(--ink-400);
+  font-weight: 500;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logoutBtn {
+  background: transparent;
+  border: 1px solid var(--cream-300);
   border-radius: var(--radius);
+  padding: 5px 12px;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--ink-300);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutBtn:hover {
+  background: var(--cream-200);
+  border-color: var(--ink-200);
+  color: var(--ink-500);
 }
 
 /* Search Modal Styles */

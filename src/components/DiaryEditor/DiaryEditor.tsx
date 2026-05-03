@@ -18,6 +18,7 @@ interface DiaryEditorProps {
   content: string;
   onChange: (html: string) => void;
   paperStyle: 'plain' | 'lined' | 'grid' | 'vintage';
+  fontFamily?: string;
   placeholder?: string;
 }
 
@@ -35,6 +36,7 @@ export default function DiaryEditor({
   content,
   onChange,
   paperStyle,
+  fontFamily,
   placeholder = 'เริ่มเขียนความรู้สึกของวันนี้...',
 }: DiaryEditorProps) {
   const editor = useEditor({
@@ -298,7 +300,7 @@ export default function DiaryEditor({
       </div>
 
       {/* Editor area */}
-      <div className={`${styles.editorWrap} paper-${paperStyle}`}>
+      <div className={`${styles.editorWrap} paper-${paperStyle}`} style={fontFamily ? { fontFamily } : undefined}>
         <EditorContent editor={editor} className={styles.editor} />
       </div>
     </div>

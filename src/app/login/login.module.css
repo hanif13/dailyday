@@ -1,0 +1,152 @@
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 64px);
+  padding: 24px;
+}
+
+.loadingText {
+  font-family: var(--font-serif);
+  color: var(--ink-200);
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-paper);
+  padding: 40px 36px;
+  border: 1px solid var(--cream-300);
+  animation: fadeUp 0.4s ease forwards;
+}
+
+/* ── Logo area ── */
+.logoArea {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.logoLeaf {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 8px;
+}
+
+.logoTitle {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--ink-600);
+  margin: 0;
+}
+
+.logoSubtitle {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--ink-200);
+  margin: 4px 0 0;
+}
+
+/* ── Tabs ── */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--cream-300);
+  margin-bottom: 24px;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ink-300);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab:hover {
+  color: var(--ink-500);
+}
+
+.tabActive {
+  color: var(--ink-600);
+  border-bottom-color: var(--ink-400);
+}
+
+/* ── Form ── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-300);
+  font-weight: 600;
+}
+
+.errorMsg {
+  padding: 10px 14px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius);
+  color: #b91c1c;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+}
+
+.successMsg {
+  padding: 10px 14px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius);
+  color: #166534;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+}
+
+.submitBtn {
+  width: 100%;
+  justify-content: center;
+  font-size: 0.95rem;
+  padding: 12px;
+  margin-top: 4px;
+}
+
+/* ── Privacy note ── */
+.privacyNote {
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--ink-200);
+  margin-top: 20px;
+  line-height: 1.6;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 28px 20px;
+  }
+}

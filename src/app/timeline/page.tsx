@@ -1,61 +1,88 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 import type { Entry, Tag } from '@/lib/db';
 import Timeline from '@/components/Timeline/Timeline';
 import TagBadge from '@/components/TagBadge/TagBadge';
 import styles from './timeline.module.css';
 
 export default function TimelinePage() {
+  const router = useRouter();
+  const { user, loading: authLoading, accessToken } = useAuth();
   const [entries, setEntries] = useState<Entry[]>([]);
   const [allTags, setAllTags] = useState<Tag[]>([]);
   const [activeTag, setActiveTag] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
 
+  // Auth redirect
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push('/login');
+    }
+  }, [authLoading, user, router]);
+
   const fetchEntries = useCallback(async () => {
+    if (!accessToken) return;
     try {
-      const res = await fetch('/api/entries');
+      const res = await fetch('/api/entries', {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
       const data: Entry[] = await res.json();
       setEntries(data);
       const tagMap = new Map<string, Tag>();
-      data.forEach(e => e.tags?.forEach(t => tagMap.set(t.name, t)));
+      data.forEach((e) => e.tags?.forEach((t) => tagMap.set(t.name, t)));
       setAllTags(Array.from(tagMap.values()));
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [accessToken]);
 
-  useEffect(() => { 
+  useEffect(() => {
     // Check for search query in URL
     const params = new URLSearchParams(window.location.search);
     const q = params.get('q');
     if (q) setSearchQuery(q);
-    
-    fetchEntries(); 
+
+    fetchEntries();
   }, [fetchEntries]);
 
   // Filter by tag AND search query
-  const filteredEntries = entries.filter(e => {
-    const matchTag = !activeTag || e.tags?.some(t => t.name === activeTag);
+  const filteredEntries = entries.filter((e) => {
+    const matchTag = !activeTag || e.tags?.some((t) => t.name === activeTag);
     const q = searchQuery.toLowerCase().trim();
-    const matchSearch = !q ||
+    const matchSearch =
+      !q ||
       e.title.toLowerCase().includes(q) ||
       e.content.replace(/<[^>]*>/g, ' ').toLowerCase().includes(q) ||
       e.mood.includes(q) ||
-      e.tags?.some(t => t.name.toLowerCase().includes(q));
+      e.tags?.some((t) => t.name.toLowerCase().includes(q));
     return matchTag && matchSearch;
   });
 
   const handleTagClick = (tag: string) => {
-    setActiveTag(prev => prev === tag ? '' : tag);
+    setActiveTag((prev) => (prev === tag ? '' : tag));
   };
 
   const totalWords = entries.reduce((sum, e) => {
     const txt = e.content.replace(/<[^>]*>/g, ' ').trim();
     return sum + txt.split(/\s+/).filter(Boolean).length;
   }, 0);
+
+  if (authLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', padding: '120px' }}>
+        <div style={{ fontFamily: 'var(--font-serif)', color: 'var(--ink-200)', fontSize: '1.2rem', fontStyle: 'italic' }}>
+          กำลังโหลด...
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) return null;
 
   return (
     <div className={styles.page}>
@@ -64,7 +91,10 @@ export default function TimelinePage() {
           <div className={styles.headerLeft}>
             <p className={styles.headerDate}>
               {new Date().toLocaleDateString('th-TH', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
               })}
             </p>
             <h1 className={styles.headerTitle}>เส้นทางประสบการณ์ของเรา</h1>
@@ -96,7 +126,7 @@ export default function TimelinePage() {
           >
             ทั้งหมด
           </button>
-          {allTags.map(tag => (
+          {allTags.map((tag) => (
             <TagBadge
               key={tag.id}
               name={tag.name}
@@ -111,9 +141,23 @@ export default function TimelinePage() {
         {(searchQuery || activeTag) && (
           <div className={styles.resultInfo}>
             พบ <strong>{filteredEntries.length}</strong> รายการ
-            {activeTag && <> · แท็ก <span style={{ color: allTags.find(t => t.name === activeTag)?.color }}># {activeTag}</span></>}
+            {activeTag && (
+              <>
+                {' '}
+                · แท็ก <span style={{ color: allTags.find((t) => t.name === activeTag)?.color }}># {activeTag}</span>
+              </>
+            )}
             {searchQuery && !searchQuery.startsWith('#') && <> &middot; &quot;{searchQuery}&quot;</>}
-            <button className={styles.clearSearch} onClick={() => {setSearchQuery(''); setActiveTag(''); window.history.replaceState({}, '', '/timeline');}}>ล้างการค้นหา</button>
+            <button
+              className={styles.clearSearch}
+              onClick={() => {
+                setSearchQuery('');
+                setActiveTag('');
+                window.history.replaceState({}, '', '/timeline');
+              }}
+            >
+              ล้างการค้นหา
+            </button>
           </div>
         )}
       </header>
@@ -121,14 +165,14 @@ export default function TimelinePage() {
       <section className={styles.timelineSection}>
         {loading ? (
           <div className={styles.loading}>
-            <div className={styles.loadingDots}><span /><span /><span /></div>
+            <div className={styles.loadingDots}>
+              <span />
+              <span />
+              <span />
+            </div>
           </div>
         ) : (
-          <Timeline
-            entries={filteredEntries}
-            activeTag={activeTag}
-            onTagClick={handleTagClick}
-          />
+          <Timeline entries={filteredEntries} activeTag={activeTag} onTagClick={handleTagClick} />
         )}
       </section>
     </div>

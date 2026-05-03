@@ -22,6 +22,9 @@ export interface Entry {
   paper_style: PaperStyle;
   created_at: string;
   updated_at: string;
+  user_id?: string;
+  share_token?: string | null;
+  is_public?: boolean;
   tags?: Tag[];
 }
 
@@ -34,10 +37,19 @@ function formatEntry(entry: any): Entry {
   };
 }
 
+// ─── Auth helper ─────────────────────────────────────────────────────
+// Verify user from access token (for API routes)
+export async function getUserFromToken(token: string | null): Promise<string | null> {
+  if (!token) return null;
+  const { data: { user }, error } = await supabase.auth.getUser(token);
+  if (error || !user) return null;
+  return user.id;
+}
+
 // ─── Entries ─────────────────────────────────────────────────────────
 
-export async function getAllEntries(): Promise<Entry[]> {
-  const { data, error } = await supabase
+export async function getAllEntries(userId?: string): Promise<Entry[]> {
+  let query = supabase
     .from('entries')
     .select(`
       *,
@@ -46,6 +58,12 @@ export async function getAllEntries(): Promise<Entry[]> {
       )
     `)
     .order('created_at', { ascending: false });
+
+  if (userId) {
+    query = query.eq('user_id', userId);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     console.error('getAllEntries error:', error);
@@ -65,6 +83,24 @@ export async function getEntryById(id: number): Promise<Entry | null> {
       )
     `)
     .eq('id', id)
+    .single();
+
+  if (error || !data) return null;
+  return formatEntry(data);
+}
+
+// Get entry by share token (for public shared pages)
+export async function getEntryByShareToken(token: string): Promise<Entry | null> {
+  const { data, error } = await supabase
+    .from('entries')
+    .select(`
+      *,
+      entry_tags (
+        tags (*)
+      )
+    `)
+    .eq('share_token', token)
+    .eq('is_public', true)
     .single();
 
   if (error || !data) return null;
@@ -119,15 +155,22 @@ export async function createEntry(data: {
   mood: string;
   paper_style: PaperStyle;
   tags?: string[];
+  user_id?: string;
 }): Promise<Entry | null> {
+  const insertData: any = {
+    title: data.title,
+    content: data.content,
+    mood: data.mood,
+    paper_style: data.paper_style,
+  };
+
+  if (data.user_id) {
+    insertData.user_id = data.user_id;
+  }
+
   const { data: result, error } = await supabase
     .from('entries')
-    .insert([{
-      title: data.title,
-      content: data.content,
-      mood: data.mood,
-      paper_style: data.paper_style,
-    }])
+    .insert([insertData])
     .select()
     .single();
 
@@ -182,6 +225,31 @@ export async function deleteEntry(id: number): Promise<boolean> {
   return !error;
 }
 
+// ─── Share ──────────────────────────────────────────────────────────
+
+export async function createShareToken(entryId: number): Promise<string | null> {
+  const token = crypto.randomUUID();
+  const { error } = await supabase
+    .from('entries')
+    .update({ share_token: token, is_public: true })
+    .eq('id', entryId);
+
+  if (error) {
+    console.error('createShareToken error:', error);
+    return null;
+  }
+  return token;
+}
+
+export async function revokeShareToken(entryId: number): Promise<boolean> {
+  const { error } = await supabase
+    .from('entries')
+    .update({ share_token: null, is_public: false })
+    .eq('id', entryId);
+
+  return !error;
+}
+
 // ─── Tags ──────────────────────────────────────────────────────────
 
 export async function getAllTags(): Promise<Tag[]> {
@@ -192,4 +260,21 @@ export async function getAllTags(): Promise<Tag[]> {
 
   if (error) return [];
   return data;
+}
+
+// ─── Feedback ──────────────────────────────────────────────────────
+
+export async function createFeedback(data: {
+  user_id?: string;
+  message: string;
+}): Promise<boolean> {
+  const { error } = await supabase
+    .from('feedback')
+    .insert([data]);
+
+  if (error) {
+    console.error('createFeedback error:', error);
+    return false;
+  }
+  return true;
 }

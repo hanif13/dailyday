@@ -1,0 +1,145 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding: 40px 24px;
+  min-height: calc(100vh - 64px);
+}
+
+.loading {
+  font-family: var(--font-serif);
+  color: var(--ink-200);
+  font-size: 1.2rem;
+  font-style: italic;
+  padding: 120px 0;
+}
+
+.notFound {
+  text-align: center;
+  padding: 120px 24px;
+}
+
+.notFound h2 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--ink-400);
+  margin-bottom: 8px;
+}
+
+.notFound p {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: var(--ink-300);
+}
+
+.card {
+  width: 100%;
+  max-width: 720px;
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-paper);
+  border: 1px solid var(--cream-300);
+  overflow: hidden;
+  animation: fadeUp 0.4s ease forwards;
+}
+
+.sharedBadge {
+  background: var(--cream-100);
+  padding: 10px 24px;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--ink-300);
+  text-align: center;
+  border-bottom: 1px solid var(--cream-200);
+}
+
+.header {
+  padding: 32px 32px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 1px solid var(--cream-200);
+}
+
+.mood {
+  font-size: 2rem;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--ink-600);
+  margin: 0;
+}
+
+.date {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--ink-200);
+  margin: 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.content {
+  padding: 32px;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 2;
+  color: var(--ink-600);
+  min-height: 200px;
+}
+
+.content h1, .content h2, .content h3 {
+  font-family: var(--font-serif);
+}
+
+.content blockquote {
+  border-left: 3px solid var(--gold);
+  padding-left: 16px;
+  margin: 1em 0;
+  font-style: italic;
+  color: var(--ink-400);
+}
+
+.content img {
+  max-width: 100%;
+  border-radius: var(--radius-lg);
+  margin: 1em 0;
+}
+
+.footer {
+  padding: 16px 32px;
+  background: var(--cream-50);
+  border-top: 1px solid var(--cream-200);
+  text-align: center;
+}
+
+.footer p {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--ink-200);
+  margin: 0;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .card {
+    border-radius: var(--radius-lg);
+  }
+  .header {
+    padding: 24px 20px 12px;
+  }
+  .content {
+    padding: 24px 20px;
+  }
+}

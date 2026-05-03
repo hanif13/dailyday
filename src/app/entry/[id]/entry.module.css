@@ -21,6 +21,13 @@
 .topActions {
   display: flex;
   gap: 8px;
+  align-items: center;
+}
+
+.shareActions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
 }
 
 /* ── Layout ── */
