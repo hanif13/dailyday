@@ -6,6 +6,10 @@ import { AuthProvider } from '@/context/AuthContext';
 export const metadata: Metadata = {
   title: 'Life Reflection — บันทึกเส้นทางชีวิต',
   description: 'บันทึกประสบการณ์ชีวิต สะท้อนตัวตน มีไทม์ไลน์ แท็ก และรูปภาพ',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
