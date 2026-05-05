@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getLatestTip, getAllTips, supabase } from '@/lib/db';
+import { supabase } from '@/lib/db';
 import { createClient } from '@supabase/supabase-js';
 
 const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
