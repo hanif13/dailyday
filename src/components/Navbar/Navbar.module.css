@@ -82,6 +82,13 @@
   opacity: 0.7;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
 .searchBtn {
   display: flex;
   align-items: center;
@@ -95,10 +102,28 @@
   color: var(--ink-300);
   cursor: pointer;
   transition: all 0.2s;
-  margin-left: auto;
 }
 
 .searchBtn:hover {
+  background: var(--cream-200);
+  color: var(--ink-500);
+}
+
+.feedbackBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  color: var(--ink-300);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.feedbackBtn:hover {
   background: var(--cream-200);
   color: var(--ink-500);
 }

@@ -278,3 +278,48 @@ export async function createFeedback(data: {
   }
   return true;
 }
+
+// ─── System Tips ───────────────────────────────────────────────────
+
+export interface SystemTip {
+  id: number;
+  title: string;
+  content: string;
+  created_at: string;
+}
+
+export async function getLatestTip(): Promise<SystemTip | null> {
+  const { data, error } = await supabase
+    .from('system_tips')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  if (error || !data) return null;
+  return data;
+}
+
+export async function getAllTips(): Promise<SystemTip[]> {
+  const { data, error } = await supabase
+    .from('system_tips')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) return [];
+  return data || [];
+}
+
+export async function createTip(data: { title: string; content: string }): Promise<SystemTip | null> {
+  const { data: result, error } = await supabase
+    .from('system_tips')
+    .insert([data])
+    .select()
+    .single();
+
+  if (error) {
+    console.error('createTip error:', error);
+    return null;
+  }
+  return result;
+}

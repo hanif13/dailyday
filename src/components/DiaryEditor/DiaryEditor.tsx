@@ -37,7 +37,7 @@ export default function DiaryEditor({
   onChange,
   paperStyle,
   fontFamily,
-  placeholder = 'เริ่มเขียนความรู้สึกของวันนี้...',
+  placeholder = 'วันนี้คุณไปเจออะไรมา ...',
 }: DiaryEditorProps) {
   const editor = useEditor({
     extensions: [
@@ -123,7 +123,7 @@ export default function DiaryEditor({
           >
             <s>S</s>
           </button>
-          
+
           {/* Color Picker */}
           <input
             type="color"
@@ -240,10 +240,10 @@ export default function DiaryEditor({
           >
             🖼️
           </button>
-          <input 
-            type="file" 
-            id="editor-image-upload" 
-            hidden 
+          <input
+            type="file"
+            id="editor-image-upload"
+            hidden
             accept="image/*"
             onChange={(e) => {
               const file = e.target.files?.[0];

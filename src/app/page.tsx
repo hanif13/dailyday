@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useAuth } from '@/context/AuthContext';
-import FeedbackModal from '@/components/FeedbackModal/FeedbackModal';
 import styles from './write.module.css';
+import SystemTips from '@/components/SystemTips/SystemTips';
 
 const DiaryEditor = dynamic(() => import('@/components/DiaryEditor/DiaryEditor'), { ssr: false });
 
@@ -55,7 +55,6 @@ export default function HomePage() {
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [currentDraftId, setCurrentDraftId] = useState<string | null>(null);
   const [showDraftSelection, setShowDraftSelection] = useState(false);
-  const [showFeedback, setShowFeedback] = useState(false);
 
   // Auth redirect
   useEffect(() => {
@@ -220,6 +219,7 @@ export default function HomePage() {
     <div className={styles.page}>
       {/* Sidebar controls */}
       <aside className={styles.sidebar}>
+        <SystemTips />
         <div className={styles.sideCard}>
           {drafts.length > 0 && !currentDraftId && (
             <div className={styles.draftNotice}>
@@ -364,16 +364,8 @@ export default function HomePage() {
             {saving ? '⏳ กำลังบันทึก...' : '✓ บันทึก'}
           </button>
 
-          {/* Feedback + Privacy */}
+          {/* Privacy */}
           <div className={styles.bottomSection}>
-            <button
-              type="button"
-              className={styles.feedbackBtn}
-              onClick={() => setShowFeedback(true)}
-            >
-              💬 สิ่งที่อยากบอกทีมงาน
-            </button>
-
             <p className={styles.privacyText}>
               🔒 บันทึกของคุณเป็นส่วนตัว — มีเพียงคุณเท่านั้นที่อ่านได้
               เว้นแต่คุณเลือก &quot;แชร์&quot; เอง
@@ -400,9 +392,6 @@ export default function HomePage() {
 
         <DiaryEditor content={content} onChange={setContent} paperStyle={paperStyle} fontFamily={fontFamily} />
       </main>
-
-      {/* Feedback Modal */}
-      {showFeedback && <FeedbackModal onClose={() => setShowFeedback(false)} />}
     </div>
   );
 }

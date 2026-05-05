@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import FeedbackModal from '@/components/FeedbackModal/FeedbackModal';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
@@ -11,6 +12,7 @@ export default function Navbar() {
   const { user, loading, signOut } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   // Don't show navbar on login page
   if (pathname === '/login') return null;
@@ -64,17 +66,34 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Search button */}
-          <button
-            id="nav-search-btn"
-            className={styles.searchBtn}
-            onClick={() => setSearchOpen(true)}
-            type="button"
-            aria-label="ค้นหา"
-            title="ค้นหาบันทึก"
-          >
-            <span>⌕</span>
-          </button>
+          <div className={styles.actions}>
+            {/* Search button */}
+            <button
+              id="nav-search-btn"
+              className={styles.searchBtn}
+              onClick={() => setSearchOpen(true)}
+              type="button"
+              aria-label="ค้นหา"
+              title="ค้นหาบันทึก"
+            >
+              <span>⌕</span>
+            </button>
+
+            {/* Feedback button */}
+            <button
+              className={styles.feedbackBtn}
+              onClick={() => setFeedbackOpen(true)}
+              type="button"
+              title="สิ่งที่อยากบอกทีมงาน"
+              aria-label="แจ้งทีมงาน"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+            </button>
+          </div>
 
           {/* User area */}
           {!loading && user && (
@@ -112,6 +131,11 @@ export default function Navbar() {
             <p className={styles.searchHint}>กด Enter หรือ Esc เพื่อปิด</p>
           </div>
         </div>
+      )}
+
+      {/* Feedback Modal */}
+      {feedbackOpen && (
+        <FeedbackModal onClose={() => setFeedbackOpen(false)} />
       )}
     </>
   );
