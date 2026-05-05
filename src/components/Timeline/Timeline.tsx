@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import type { Entry } from '@/lib/db';
 import TagBadge from '@/components/TagBadge/TagBadge';
@@ -60,6 +60,13 @@ export default function Timeline({ entries, activeTag, onTagClick }: TimelinePro
   }, [isDragging, startX, scrollLeft]);
 
   const stopDrag = useCallback(() => setIsDragging(false), []);
+
+  // Scroll to latest (rightmost) entry on mount
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = scrollRef.current.scrollWidth;
+    }
+  }, [entries]);
 
   if (entries.length === 0) {
     return (
